@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import QuestionCard from './components/QuestionCard';
 import { fetchQuizQuestions, Difficulty, QuestionState } from './API';
 
-type AnswerObject = {
+export type AnswerObject = {
   question: string;
   answer: string;
   correct: boolean;
@@ -18,8 +18,6 @@ const App: React.FC = () => {
   const [ userAnswers, setUserAnswers ] = useState<AnswerObject[]>([]);
   const [ score, setScore ] = useState(0);
   const [ gameOver, setGameOver ] = useState(true);
-
-  console.log(questions);
 
   const startTrivia = async () => {
     setLoading(true);
@@ -58,7 +56,13 @@ const App: React.FC = () => {
 }
 
   const nextQuestion = () => {
+    const nextQuestion = number + 1;
 
+    if (nextQuestion === TOTAL_QUESTIONS) {
+      setGameOver(true)
+    } else {
+      setNumber(nextQuestion)
+    }
   }
 
   return (
