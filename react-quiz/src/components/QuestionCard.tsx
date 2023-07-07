@@ -1,7 +1,7 @@
-import { AnswerObject } from "../App";
+import { AnswerObject } from "./QuizComponent";
 import { Wrapper, ButtonWrapper } from "./QuestionCard.styles";
 
-type Props = {
+type QuestionProps = {
   question: string;
   answers: string[];
   callback: (e: React.MouseEvent<HTMLButtonElement>) => void;
@@ -10,7 +10,7 @@ type Props = {
   totalQuestions: number;
 }
 
-const QuestionCard: React.FC<Props> = ({
+const QuestionCard: React.FC<QuestionProps> = ({
   question,
   answers,
   callback,
