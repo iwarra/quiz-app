@@ -2,7 +2,7 @@ import { fetchQuizQuestions, Difficulty, QuestionType  } from '../API'
 import QuestionCard from "./QuestionCard";
 import { QuizStateProps } from "../App";
 
-export interface QuizSettingsProps {
+interface QuizComponentProps {
   quizState: QuizStateProps;
   setQuizState: React.Dispatch<React.SetStateAction<QuizStateProps>>;
 }
@@ -16,7 +16,7 @@ export type AnswerObject = {
 
 const TOTAL_QUESTIONS = 10
 
-const QuizComponent: React.FC<QuizSettingsProps> = ({ quizState, setQuizState }) => {
+const QuizComponent: React.FC<QuizComponentProps> = ({ quizState, setQuizState }) => {
    //Hard-coded values for now till endpoints are connected to quiz settings
    const startTrivia = async () => {
     setQuizState({ ...quizState, loading: true })

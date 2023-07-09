@@ -1,5 +1,9 @@
 import { QuizStateProps } from "../App";
-import { QuizSettingsProps } from "./QuizComponent";
+
+interface QuizSettingsProps {
+  quizState: QuizStateProps;
+  setQuizState: React.Dispatch<React.SetStateAction<QuizStateProps>>;
+}
 
 const QuizSettings: React.FC<QuizSettingsProps> = ({ quizState, setQuizState }) => {
   return (
