@@ -1,4 +1,7 @@
-const QuizSettings = () => {
+import { QuizStateProps } from "../App";
+import { QuizSettingsProps } from "./QuizComponent";
+
+const QuizSettings: React.FC<QuizSettingsProps> = ({ quizState, setQuizState }) => {
   return (
     <>
       <h2>Please select:</h2>

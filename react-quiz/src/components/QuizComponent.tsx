@@ -1,6 +1,11 @@
-import { useState } from "react";
-import { fetchQuizQuestions, QuestionState, Difficulty, QuestionType  } from '../API'
+import { fetchQuizQuestions, Difficulty, QuestionType  } from '../API'
 import QuestionCard from "./QuestionCard";
+import { QuizStateProps } from "../App";
+
+export interface QuizSettingsProps {
+  quizState: QuizStateProps;
+  setQuizState: React.Dispatch<React.SetStateAction<QuizStateProps>>;
+}
 
 export type AnswerObject = {
    question: string;
@@ -9,31 +14,12 @@ export type AnswerObject = {
    correctAnswer: string;
  }
 
- export type StateProps = {
-   loading: boolean;
-   number: number;
-   score: number;
-   gameOver: boolean;
-   questions: QuestionState[];
-   userAnswers: AnswerObject[];
- }
-
 const TOTAL_QUESTIONS = 10
 
-const QuizComponent: React.FC = () => {
-  const [state, setState] = useState<StateProps>({
-     loading: false,
-     number: 0,
-     score: 0,
-     gameOver: true,
-     questions: [],
-     userAnswers: [],
-   });
-
-
+const QuizComponent: React.FC<QuizSettingsProps> = ({ quizState, setQuizState }) => {
    //Hard-coded values for now till endpoints are connected to quiz settings
    const startTrivia = async () => {
-    setState({ ...state, loading: true })
+    setQuizState({ ...quizState, loading: true })
 
     console.log("Fetching...")
     const newQuestions = await fetchQuizQuestions(
@@ -44,66 +30,66 @@ const QuizComponent: React.FC = () => {
     )
   console.log(newQuestions)
 
-     setState({
-      ...state,
+     setQuizState({
+      ...quizState,
       questions: newQuestions,
       loading: false,
       userAnswers: [],
       gameOver: false,
     })
 
-    console.log(state)
+    console.log(quizState)
   };
 
    const checkAnswer = (e: React.MouseEvent<HTMLButtonElement>) => {
-    if (!state.gameOver) {
+    if (!quizState.gameOver) {
        const answer = e.currentTarget.value;
-       const correct = state.questions[state.number].correct_answer === answer;
+       const correct = quizState.questions[quizState.number].correct_answer === answer;
 
       const answerObject = {
-        question: state.questions[state.number].question,
+        question: quizState.questions[quizState.number].question,
         answer,
          correct,
-         correctAnswer: state.questions[state.number].correct_answer,
+         correctAnswer: quizState.questions[quizState.number].correct_answer,
        };
 
       //Update answers and score
-       setState({
-        ...state,
-        userAnswers: [...state.userAnswers, answerObject],
-        score: correct ? state.score + 1 : state.score,
+       setQuizState({
+        ...quizState,
+        userAnswers: [...quizState.userAnswers, answerObject],
+        score: correct ? quizState.score + 1 : quizState.score,
       })
     }
    };
 
   const nextQuestion = () => {
-    const nextQuestion = state.number + 1;
+    const nextQuestion = quizState.number + 1;
 
      if (nextQuestion === TOTAL_QUESTIONS) {
-      setState({ ...state, gameOver: true })
+      setQuizState({ ...quizState, gameOver: true })
      } else {
-       setState({ ...state, number: nextQuestion })
+       setQuizState({ ...quizState, number: nextQuestion })
      }
    };
 
    return (
     <>
-    { state.gameOver || state.userAnswers.length === TOTAL_QUESTIONS ? (
+    { quizState.gameOver || quizState.userAnswers.length === TOTAL_QUESTIONS ? (
       <button className='start' onClick={ startTrivia }> Start </button>
       ) : null }
-      { !state.gameOver ? <p className='score'>Score: {state.score}</p> : null}
-      { state.loading ? <p>Loading questions...</p> : null}
-      { !state.loading && !state.gameOver ? (
+      { !quizState.gameOver ? <p className='score'>Score: {quizState.score}</p> : null}
+      { quizState.loading ? <p>Loading questions...</p> : null}
+      { !quizState.loading && !quizState.gameOver ? (
         <QuestionCard 
-          questionNr={state.number + 1}
+          questionNr={quizState.number + 1}
           totalQuestions={TOTAL_QUESTIONS}
-          question={state.questions[state.number].question}
-          answers={state.questions[state.number].answers}
-          userAnswer={state.userAnswers ? state.userAnswers[state.number] : undefined}
+          question={quizState.questions[quizState.number].question}
+          answers={quizState.questions[quizState.number].answers}
+          userAnswer={quizState.userAnswers ? quizState.userAnswers[quizState.number] : undefined}
           callback={checkAnswer}
         />
       ) : null }
-      { !state.gameOver && !state.loading && state.userAnswers.length === state.number + 1 && state.number !== TOTAL_QUESTIONS - 1 ? (
+      { !quizState.gameOver && !quizState.loading && quizState.userAnswers.length === quizState.number + 1 && quizState.number !== TOTAL_QUESTIONS - 1 ? (
       <button className='next' onClick={ nextQuestion }>Next question</button>
       ) : null }
    </> 
