@@ -1,5 +1,4 @@
 import { GlobalStyle, Wrapper } from './app.styles';
-import { Box } from './components/QuizSettings.styles'; 
 import QuizComponent from './components/QuizComponent';
 import QuizSettings from './components/QuizSettings';
 import { useState } from "react";
@@ -31,12 +30,10 @@ const App: React.FC = () => {
     <GlobalStyle />
     <Wrapper>
       <h1>React Quiz</h1>
-      <Box>
-        <QuizSettings 
-          quizState={quizState} 
-          setQuizState={setQuizState}
-        />
-      </Box>
+      <QuizSettings 
+        quizState={quizState} 
+        setQuizState={setQuizState}
+      />
       <QuizComponent 
         quizState={quizState} 
         setQuizState={setQuizState}

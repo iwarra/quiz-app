@@ -19,7 +19,7 @@ const TOTAL_QUESTIONS = 10
 const QuizComponent: React.FC<QuizComponentProps> = ({ quizState, setQuizState }) => {
    //Hard-coded values for now till endpoints are connected to quiz settings
    const startTrivia = async () => {
-    setQuizState({ ...quizState, loading: true })
+    setQuizState(prevState => ({ ...prevState, loading: true, gameOver: false }))
 
     console.log("Fetching...")
     const newQuestions = await fetchQuizQuestions(
@@ -28,37 +28,37 @@ const QuizComponent: React.FC<QuizComponentProps> = ({ quizState, setQuizState }
       QuestionType.Multiple,
       9
     )
-  console.log(newQuestions)
 
      setQuizState({
-      ...quizState,
-      questions: newQuestions,
-      loading: false,
-      userAnswers: [],
-      gameOver: false,
-    })
+        loading: false,
+        number: 0,
+        score: 0,
+        gameOver: false,
+        questions: newQuestions,
+        userAnswers: [],
+     })
 
-    console.log(quizState)
+    console.log('Started trivia:',quizState)
   };
 
    const checkAnswer = (e: React.MouseEvent<HTMLButtonElement>) => {
     if (!quizState.gameOver) {
-       const answer = e.currentTarget.value;
-       const correct = quizState.questions[quizState.number].correct_answer === answer;
+      const answer = e.currentTarget.value;
+      const correct = quizState.questions[quizState.number].correct_answer === answer;
 
       const answerObject = {
         question: quizState.questions[quizState.number].question,
         answer,
-         correct,
-         correctAnswer: quizState.questions[quizState.number].correct_answer,
-       };
+        correct,
+        correctAnswer: quizState.questions[quizState.number].correct_answer,
+      };
 
       //Update answers and score
-       setQuizState({
-        ...quizState,
-        userAnswers: [...quizState.userAnswers, answerObject],
-        score: correct ? quizState.score + 1 : quizState.score,
-      })
+       setQuizState(prevState => ({
+        ...prevState,
+        userAnswers: [...prevState.userAnswers, answerObject],
+        score: correct ? prevState.score + 1 : prevState.score,
+      }))
     }
    };
 
@@ -66,9 +66,14 @@ const QuizComponent: React.FC<QuizComponentProps> = ({ quizState, setQuizState }
     const nextQuestion = quizState.number + 1;
 
      if (nextQuestion === TOTAL_QUESTIONS) {
-      setQuizState({ ...quizState, gameOver: true })
+      setQuizState(prevState => ({
+         ...prevState,
+         gameOver: true,
+        }))
      } else {
-       setQuizState({ ...quizState, number: nextQuestion })
+       setQuizState(prevState => ({ 
+         ...prevState, 
+         number: nextQuestion }))
      }
    };
 
