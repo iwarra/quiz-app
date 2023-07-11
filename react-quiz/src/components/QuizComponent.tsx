@@ -1,10 +1,22 @@
-import { fetchQuizQuestions, Difficulty, QuestionType  } from '../API'
+import { fetchQuizQuestions } from '../API'
 import QuestionCard from "./QuestionCard";
 import { QuizStateProps } from "../App";
 
 interface QuizComponentProps {
   quizState: QuizStateProps;
   setQuizState: React.Dispatch<React.SetStateAction<QuizStateProps>>;
+  selectedState: {
+    nrOfQuestions: string;
+    questionType: string;
+    difficulty: string;
+    category: string;
+  };
+  setSelectedState: React.Dispatch<React.SetStateAction<{
+    nrOfQuestions: string;
+    questionType: string;
+    difficulty: string;
+    category: string;
+  }>>;
 }
 
 export type AnswerObject = {
@@ -16,17 +28,19 @@ export type AnswerObject = {
 
 const TOTAL_QUESTIONS = 10
 
-const QuizComponent: React.FC<QuizComponentProps> = ({ quizState, setQuizState }) => {
-   //Hard-coded values for now till endpoints are connected to quiz settings
+const QuizComponent: React.FC<QuizComponentProps> = ({ quizState, setQuizState, selectedState, setSelectedState }) => {
+  
    const startTrivia = async () => {
     setQuizState(prevState => ({ ...prevState, loading: true, gameOver: false }))
 
     console.log("Fetching...")
     const newQuestions = await fetchQuizQuestions(
-      TOTAL_QUESTIONS,
-      Difficulty.EASY,
-      QuestionType.Multiple,
-      9
+      {
+      nrOfQuestions: selectedState.nrOfQuestions,
+      questionType: selectedState.questionType,
+      difficulty: selectedState.difficulty,
+      category: selectedState.category,
+      }
     )
 
      setQuizState({
@@ -64,12 +78,18 @@ const QuizComponent: React.FC<QuizComponentProps> = ({ quizState, setQuizState }
 
   const nextQuestion = () => {
     const nextQuestion = quizState.number + 1;
-
+//There is no next button on the last answer so the state is not updated
      if (nextQuestion === TOTAL_QUESTIONS) {
-      setQuizState(prevState => ({
+       setQuizState(prevState => ({
          ...prevState,
          gameOver: true,
         }))
+        setSelectedState({
+          nrOfQuestions: "",
+          questionType: "",
+          difficulty: "",
+          category: ""
+        })
      } else {
        setQuizState(prevState => ({ 
          ...prevState, 

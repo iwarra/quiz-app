@@ -3,39 +3,77 @@ import { Box } from './QuizSettings.styles';
 
 interface QuizSettingsProps {
   quizState: QuizStateProps;
-  setQuizState: React.Dispatch<React.SetStateAction<QuizStateProps>>;
+  selectedState: {
+    nrOfQuestions: string;
+    questionType: string;
+    difficulty: string;
+    category: string;
+  };
+  setSelectedState: React.Dispatch<React.SetStateAction<{
+    nrOfQuestions: string;
+    questionType: string;
+    difficulty: string;
+    category: string;
+  }>>;
 }
 
-const QuizSettings: React.FC<QuizSettingsProps> = ({ quizState, setQuizState }) => {
+const QuizSettings: React.FC<QuizSettingsProps> = ({ quizState, selectedState, setSelectedState }) => {
+  const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setSelectedState(prevState => ({
+      ...prevState,
+      [name]: value
+    }));
+  };
+
   return (
     <> 
     { quizState.gameOver === true ? (
       <Box>
         <h2>Please select:</h2>
         <label htmlFor="questionsNr">Number of questions:
-            <select name="numberOfQuestions" id="questionsNr">
+            <select 
+              name="nrOfQuestions" 
+              id="questionsNr"
+              value={selectedState.nrOfQuestions}
+              onChange={handleSelectChange}
+            >
               <option value="5">5</option>
               <option value="10">10</option>
               <option value="15">15</option>
               <option value="20">20</option>
             </select>
           </label>
-          <label htmlFor="questionType"> Question type:
-            <select name="questionType" id="questionType">
+          <label htmlFor="questionType">Question type:
+            <select 
+              name="questionType" 
+              id="questionType"
+              value={selectedState.questionType}
+                onChange={handleSelectChange}
+            >
               <option value="multiple">Multiple</option>
               <option value="boolean">True or false</option>
             </select>
           </label>
-              <label htmlFor="difficultyLevel"> Difficulty level:
-            <select name="difficultyLevel" id="difficultyLevel">
+              <label htmlFor="difficultyLevel">Difficulty level:
+            <select 
+              name="difficulty" 
+              id="difficultyLevel"
+              value={selectedState.difficulty}
+              onChange={handleSelectChange}
+            >
               <option value="easy">Easy</option>
               <option value="medium">Medium</option>
               <option value="hard">Hard</option>
             </select>
           </label>
-          <label htmlFor="category">
-            Category:
-            <select name="category" id="category">
+          <label htmlFor="category">Category:
+            <select 
+              name="category" 
+              id="category"
+              value={selectedState.category}
+              onChange={handleSelectChange}
+            >
               <option value="9">General knowledge</option>
               <option value="17">Science and Nature</option>
               <option value="18">Computers</option>

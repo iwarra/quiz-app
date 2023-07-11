@@ -11,7 +11,7 @@ export interface QuizStateProps {
   score: number;
   gameOver: boolean;
   questions: QuestionState[]; 
-  userAnswers: AnswerObject[]; 
+  userAnswers: AnswerObject[];
 }
 
 const App: React.FC = () => {
@@ -24,6 +24,13 @@ const App: React.FC = () => {
      userAnswers: [],
    });
 
+   const [selectedState, setSelectedState] = useState({
+     nrOfQuestions: "",
+     questionType: "",
+     difficulty: "",
+     category: "",
+   });
+
 
   return (
     <>
@@ -32,11 +39,14 @@ const App: React.FC = () => {
       <h1>React Quiz</h1>
       <QuizSettings 
         quizState={quizState} 
-        setQuizState={setQuizState}
+        selectedState={selectedState}
+        setSelectedState={setSelectedState}
       />
       <QuizComponent 
         quizState={quizState} 
         setQuizState={setQuizState}
+        selectedState={selectedState}
+        setSelectedState={setSelectedState}
       />
     </Wrapper>
     </>
