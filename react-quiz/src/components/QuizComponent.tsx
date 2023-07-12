@@ -1,6 +1,6 @@
 import { fetchQuizQuestions } from '../API'
-import QuestionCard from "./QuestionCard";
 import { QuizStateProps } from "../App";
+import QuestionCard from "./QuestionCard";
 
 interface QuizComponentProps {
   quizState: QuizStateProps;
@@ -26,8 +26,6 @@ export type AnswerObject = {
    correctAnswer: string;
  }
 
-const TOTAL_QUESTIONS = 10
-
 const QuizComponent: React.FC<QuizComponentProps> = ({ quizState, setQuizState, selectedState, setSelectedState }) => {
   
    const startTrivia = async () => {
@@ -36,21 +34,22 @@ const QuizComponent: React.FC<QuizComponentProps> = ({ quizState, setQuizState, 
     console.log("Fetching...")
     const newQuestions = await fetchQuizQuestions(
       {
-      nrOfQuestions: selectedState.nrOfQuestions,
-      questionType: selectedState.questionType,
-      difficulty: selectedState.difficulty,
-      category: selectedState.category,
+        nrOfQuestions: selectedState.nrOfQuestions,
+        questionType: selectedState.questionType,
+        difficulty: selectedState.difficulty,
+        category: selectedState.category,
       }
     )
 
-     setQuizState({
+     setQuizState(prevState => ({
+        ...prevState,
         loading: false,
         number: 0,
         score: 0,
         gameOver: false,
         questions: newQuestions,
         userAnswers: [],
-     })
+     }))
 
     console.log('Started trivia:',quizState)
   };
@@ -76,30 +75,30 @@ const QuizComponent: React.FC<QuizComponentProps> = ({ quizState, setQuizState, 
     }
    };
 
+   //There is no next button on the last answer so the state is not updated
   const nextQuestion = () => {
     const nextQuestion = quizState.number + 1;
-//There is no next button on the last answer so the state is not updated
-     if (nextQuestion === TOTAL_QUESTIONS) {
-       setQuizState(prevState => ({
-         ...prevState,
-         gameOver: true,
-        }))
-        setSelectedState({
-          nrOfQuestions: "",
-          questionType: "",
-          difficulty: "",
-          category: ""
-        })
-     } else {
-       setQuizState(prevState => ({ 
-         ...prevState, 
-         number: nextQuestion }))
-     }
-   };
+    if (nextQuestion === quizState.questions.length) {
+      setQuizState(prevState => ({
+        ...prevState,
+        gameOver: true, 
+      }))
+      setSelectedState({
+        nrOfQuestions: "",
+        questionType: "",
+        difficulty: "",
+        category: ""
+      })
+    } else {
+      setQuizState(prevState => ({ 
+        ...prevState, 
+        number: nextQuestion }))
+    }
+  };
 
    return (
     <>
-    { quizState.gameOver || quizState.userAnswers.length === TOTAL_QUESTIONS ? (
+    { quizState.gameOver || quizState.userAnswers.length === quizState.questions.length ? (
       <button className='start' onClick={ startTrivia }> Start </button>
       ) : null }
       { !quizState.gameOver ? <p className='score'>Score: {quizState.score}</p> : null}
@@ -107,14 +106,14 @@ const QuizComponent: React.FC<QuizComponentProps> = ({ quizState, setQuizState, 
       { !quizState.loading && !quizState.gameOver ? (
         <QuestionCard 
           questionNr={quizState.number + 1}
-          totalQuestions={TOTAL_QUESTIONS}
+          totalQuestions={quizState.questions.length}
           question={quizState.questions[quizState.number].question}
           answers={quizState.questions[quizState.number].answers}
           userAnswer={quizState.userAnswers ? quizState.userAnswers[quizState.number] : undefined}
           callback={checkAnswer}
         />
       ) : null }
-      { !quizState.gameOver && !quizState.loading && quizState.userAnswers.length === quizState.number + 1 && quizState.number !== TOTAL_QUESTIONS - 1 ? (
+      { !quizState.gameOver && !quizState.loading && quizState.userAnswers.length === quizState.number + 1 && quizState.number !== quizState.questions.length - 1 ? (
       <button className='next' onClick={ nextQuestion }>Next question</button>
       ) : null }
    </> 
