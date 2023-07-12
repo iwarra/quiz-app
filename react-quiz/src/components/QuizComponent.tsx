@@ -1,6 +1,7 @@
 import { fetchQuizQuestions } from '../API'
 import { QuizStateProps } from "../App";
 import QuestionCard from "./QuestionCard";
+import { useEffect } from 'react';
 
 interface QuizComponentProps {
   quizState: QuizStateProps;
@@ -27,6 +28,10 @@ export type AnswerObject = {
  }
 
 const QuizComponent: React.FC<QuizComponentProps> = ({ quizState, setQuizState, selectedState, setSelectedState }) => {
+
+  useEffect(() => {
+    console.log(quizState)
+  })
   
    const startTrivia = async () => {
     setQuizState(prevState => ({ ...prevState, loading: true, gameOver: false }))
@@ -50,6 +55,14 @@ const QuizComponent: React.FC<QuizComponentProps> = ({ quizState, setQuizState, 
         questions: newQuestions,
         userAnswers: [],
      }))
+
+     if (quizState.userAnswers.length === quizState.questions.length && quizState.questions.length !== 0) {
+       setQuizState(prevState => ({
+        ...prevState,
+        gameOver: true,
+        userAnswers: [],
+     }))
+     }
 
     console.log('Started trivia:',quizState)
   };
@@ -75,14 +88,9 @@ const QuizComponent: React.FC<QuizComponentProps> = ({ quizState, setQuizState, 
     }
    };
 
-   //There is no next button on the last answer so the state is not updated
   const nextQuestion = () => {
     const nextQuestion = quizState.number + 1;
     if (nextQuestion === quizState.questions.length) {
-      setQuizState(prevState => ({
-        ...prevState,
-        gameOver: true, 
-      }))
       setSelectedState({
         nrOfQuestions: "",
         questionType: "",

@@ -16,5 +16,9 @@ export const Box = styled.div`
 
   select {
     margin-left: 10px; 
+    padding-left: 8px;
+    background: #fff;
+    border: 1px solid #7995d2;
+    border-radius: 5px;
   }
 `;
