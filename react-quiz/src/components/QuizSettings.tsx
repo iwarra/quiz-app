@@ -28,7 +28,7 @@ const QuizSettings: React.FC<QuizSettingsProps> = ({ quizState, selectedState, s
 
   return (
     <> 
-    { quizState.gameOver === true ? (
+    { quizState.gameOver === true && !quizState.gameStarted ? (
       <Box>
         <h2>Please select:</h2>
         <label htmlFor="questionsNr">Number of questions:
