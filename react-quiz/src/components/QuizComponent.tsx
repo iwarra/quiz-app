@@ -1,7 +1,7 @@
 import { fetchQuizQuestions } from '../API'
 import { QuizStateProps } from "../App";
 import QuestionCard from "./QuestionCard";
-import { useEffect } from 'react';
+import ClipLoader from "react-spinners/ClipLoader";
 
 interface QuizComponentProps {
   quizState: QuizStateProps;
@@ -117,13 +117,20 @@ const QuizComponent: React.FC<QuizComponentProps> = ({ quizState, setQuizState, 
 
   return (
     <>
-      { quizState.gameOver || quizState.userAnswers.length === quizState.questions.length ? (
+      { quizState.loading ? (
+        <ClipLoader
+          color={"#fff"}
+          size={150}
+          aria-label="Loading Spinner"
+        />
+      ) : null }
+      { quizState.gameOver || quizState.userAnswers.length === quizState.questions.length && !quizState.loading ? (
         <button className='start' onClick={ startTrivia }> Start </button>
       ) : null }
-      { quizState.gameStarted && quizState.userAnswers.length === quizState.questions.length ? (
+      { !quizState.loading && quizState.gameStarted && quizState.userAnswers.length === quizState.questions.length ? (
         <button className='start' onClick={ backToSettings }> Change settings </button>
       ) : null }
-      { !quizState.gameOver ? <p className='score'>Score: {quizState.score}</p> : null}
+      { !quizState.gameOver && !quizState.loading ? <p className='score'>Score: {quizState.score}</p> : null}
       { quizState.loading ? <p>Loading questions...</p> : null}
       { !quizState.loading && !quizState.gameOver ? (
         <QuestionCard 
