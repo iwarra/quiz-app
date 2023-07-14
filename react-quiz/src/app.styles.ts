@@ -68,4 +68,13 @@ export const Wrapper = styled.div`
   .start {
     max-width: 200px;
   }
+
+  .error {
+    width: 400px;
+    background: #fff;
+    border: 2px solid #d38558;
+    text-align: center;
+    padding: 20px;
+    border-radius: 10px;
+  }
 `;

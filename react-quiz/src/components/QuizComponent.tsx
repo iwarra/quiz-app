@@ -2,6 +2,7 @@ import { fetchQuizQuestions } from '../API'
 import { QuizStateProps } from "../App";
 import QuestionCard from "./QuestionCard";
 import ClipLoader from "react-spinners/ClipLoader";
+import { useState } from 'react';
 
 interface QuizComponentProps {
   quizState: QuizStateProps;
@@ -28,6 +29,8 @@ export type AnswerObject = {
  }
 
 const QuizComponent: React.FC<QuizComponentProps> = ({ quizState, setQuizState, selectedState, setSelectedState }) => {
+const [errorState, setErrorState] = useState(false)
+
   const startTrivia = async () => {
     setQuizState(prevState => ({
       ...prevState,
@@ -37,30 +40,45 @@ const QuizComponent: React.FC<QuizComponentProps> = ({ quizState, setQuizState, 
       number: 0,
       score: 0,
       questions: [],
-      userAnswers: []
+      userAnswers: [],
     }));
+    setErrorState(false)
 
     console.log("Fetching...");
-    const newQuestions = await fetchQuizQuestions({
-      nrOfQuestions: selectedState.nrOfQuestions,
-      questionType: selectedState.questionType,
-      difficulty: selectedState.difficulty,
-      category: selectedState.category
-    });
 
-    setQuizState(prevState => ({
-      ...prevState,
-      loading: false,
-      questions: newQuestions
-    }));
+    try {
+      const newQuestions = await fetchQuizQuestions({
+        nrOfQuestions: selectedState.nrOfQuestions,
+        questionType: selectedState.questionType,
+        difficulty: selectedState.difficulty,
+        category: selectedState.category
+      });
 
-    if (newQuestions.length !== 0) {
       setQuizState(prevState => ({
         ...prevState,
-        gameOver: false
+        loading: false,
+        questions: newQuestions
       }));
+
+      if (newQuestions.length !== 0) {
+        setQuizState(prevState => ({
+          ...prevState,
+          gameOver: false
+        }));
+      } else {
+        setErrorState(true);
+      }
+    } catch(error) {
+      console.error('An error occurred while starting the trivia:', error);
+      setQuizState((prevState) => ({
+        ...prevState,
+        loading: false,
+        gameOver: true,
+      }));
+      setErrorState(true);
     }
   };
+    
 
    const checkAnswer = (e: React.MouseEvent<HTMLButtonElement>) => {
     if (!quizState.gameOver) {
@@ -103,7 +121,7 @@ const QuizComponent: React.FC<QuizComponentProps> = ({ quizState, setQuizState, 
       questionType: "",
       difficulty: "",
       category: "",
-    })
+    });
     setQuizState({
       gameOver: true,
       gameStarted: false,
@@ -112,7 +130,8 @@ const QuizComponent: React.FC<QuizComponentProps> = ({ quizState, setQuizState, 
       questions: [],
       score: 0,
       userAnswers: [],
-    })
+    });
+    setErrorState(false)
   }
 
   return (
@@ -124,15 +143,21 @@ const QuizComponent: React.FC<QuizComponentProps> = ({ quizState, setQuizState, 
           aria-label="Loading Spinner"
         />
       ) : null }
+      { errorState ? (
+        <div className='error'>
+          <h2>Oops, an error occurred while fetching quiz questions.</h2>
+          <p>Sorry for that. Please try again...</p>
+        </div>
+      ) : null}
       { quizState.gameOver || quizState.userAnswers.length === quizState.questions.length && !quizState.loading ? (
         <button className='start' onClick={ startTrivia }> Start </button>
       ) : null }
       { !quizState.loading && quizState.gameStarted && quizState.userAnswers.length === quizState.questions.length ? (
         <button className='start' onClick={ backToSettings }> Change settings </button>
       ) : null }
-      { !quizState.gameOver && !quizState.loading ? <p className='score'>Score: {quizState.score}</p> : null}
+      { !quizState.gameOver && !quizState.loading && !errorState ? <p className='score'>Score: {quizState.score}</p> : null}
       { quizState.loading ? <p>Loading questions...</p> : null}
-      { !quizState.loading && !quizState.gameOver ? (
+      { !quizState.loading && !quizState.gameOver && quizState.questions.length > 0 ? (
         <QuestionCard 
           questionNr={quizState.number + 1}
           totalQuestions={quizState.questions.length}

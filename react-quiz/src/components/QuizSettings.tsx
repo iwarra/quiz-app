@@ -89,6 +89,7 @@ const QuizSettings: React.FC<QuizSettingsProps> = ({ quizState, selectedState, s
               <option value="23">History</option>
               <option value="19">Mathematics</option>
               <option value="22">Geography</option>
+              <option value="64">Politics</option>
             </select>
           </label>
         </Box>
