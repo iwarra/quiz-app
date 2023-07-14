@@ -9,6 +9,7 @@ export interface QuizStateProps {
   loading: boolean;
   number: number;
   score: number;
+  gameStarted: boolean,
   gameOver: boolean;
   questions: QuestionState[]; 
   userAnswers: AnswerObject[];
@@ -19,6 +20,7 @@ const App: React.FC = () => {
      loading: false,
      number: 0,
      score: 0,
+     gameStarted: false,
      gameOver: true,
      questions: [],
      userAnswers: [],

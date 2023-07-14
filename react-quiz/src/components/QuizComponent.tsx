@@ -28,43 +28,38 @@ export type AnswerObject = {
  }
 
 const QuizComponent: React.FC<QuizComponentProps> = ({ quizState, setQuizState, selectedState, setSelectedState }) => {
+  const startTrivia = async () => {
+    setQuizState(prevState => ({
+      ...prevState,
+      loading: true,
+      gameStarted: true,
+      gameOver: false,
+      number: 0,
+      score: 0,
+      questions: [],
+      userAnswers: []
+    }));
 
-  useEffect(() => {
-    console.log(quizState)
-  })
-  
-   const startTrivia = async () => {
-    setQuizState(prevState => ({ ...prevState, loading: true, gameOver: false }))
+    console.log("Fetching...");
+    const newQuestions = await fetchQuizQuestions({
+      nrOfQuestions: selectedState.nrOfQuestions,
+      questionType: selectedState.questionType,
+      difficulty: selectedState.difficulty,
+      category: selectedState.category
+    });
 
-    console.log("Fetching...")
-    const newQuestions = await fetchQuizQuestions(
-      {
-        nrOfQuestions: selectedState.nrOfQuestions,
-        questionType: selectedState.questionType,
-        difficulty: selectedState.difficulty,
-        category: selectedState.category,
-      }
-    )
+    setQuizState(prevState => ({
+      ...prevState,
+      loading: false,
+      questions: newQuestions
+    }));
 
-     setQuizState(prevState => ({
+    if (newQuestions.length !== 0) {
+      setQuizState(prevState => ({
         ...prevState,
-        loading: false,
-        number: 0,
-        score: 0,
-        gameOver: false,
-        questions: newQuestions,
-        userAnswers: [],
-     }))
-
-     if (quizState.userAnswers.length === quizState.questions.length && quizState.questions.length !== 0) {
-       setQuizState(prevState => ({
-        ...prevState,
-        gameOver: true,
-        userAnswers: [],
-     }))
-     }
-
-    console.log('Started trivia:',quizState)
+        gameOver: false
+      }));
+    }
   };
 
    const checkAnswer = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -91,12 +86,10 @@ const QuizComponent: React.FC<QuizComponentProps> = ({ quizState, setQuizState, 
   const nextQuestion = () => {
     const nextQuestion = quizState.number + 1;
     if (nextQuestion === quizState.questions.length) {
-      setSelectedState({
-        nrOfQuestions: "",
-        questionType: "",
-        difficulty: "",
-        category: ""
-      })
+      setQuizState(prevState => ({
+         ...prevState,
+         gameOver: true,
+        }))
     } else {
       setQuizState(prevState => ({ 
         ...prevState, 
@@ -104,10 +97,31 @@ const QuizComponent: React.FC<QuizComponentProps> = ({ quizState, setQuizState, 
     }
   };
 
-   return (
+  const backToSettings = () => {
+    setSelectedState({
+      nrOfQuestions: "",
+      questionType: "",
+      difficulty: "",
+      category: "",
+    })
+    setQuizState({
+      gameOver: true,
+      gameStarted: false,
+      loading: false,
+      number: 0,
+      questions: [],
+      score: 0,
+      userAnswers: [],
+    })
+  }
+
+  return (
     <>
-    { quizState.gameOver || quizState.userAnswers.length === quizState.questions.length ? (
-      <button className='start' onClick={ startTrivia }> Start </button>
+      { quizState.gameOver || quizState.userAnswers.length === quizState.questions.length ? (
+        <button className='start' onClick={ startTrivia }> Start </button>
+      ) : null }
+      { quizState.gameStarted && quizState.userAnswers.length === quizState.questions.length ? (
+        <button className='start' onClick={ backToSettings }> Change settings </button>
       ) : null }
       { !quizState.gameOver ? <p className='score'>Score: {quizState.score}</p> : null}
       { quizState.loading ? <p>Loading questions...</p> : null}
@@ -122,10 +136,10 @@ const QuizComponent: React.FC<QuizComponentProps> = ({ quizState, setQuizState, 
         />
       ) : null }
       { !quizState.gameOver && !quizState.loading && quizState.userAnswers.length === quizState.number + 1 && quizState.number !== quizState.questions.length - 1 ? (
-      <button className='next' onClick={ nextQuestion }>Next question</button>
+        <button className='next' onClick={ nextQuestion }>Next question</button>
       ) : null }
-   </> 
-   ) 
+    </> 
+  ) 
 };
 
 export default QuizComponent;
