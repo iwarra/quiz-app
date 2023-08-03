@@ -1,5 +1,5 @@
 import styled, { createGlobalStyle } from 'styled-components';
-import backgroundImage from './images/oliver-paaske.jpg';
+import backgroundImage from './images/lightning-questionmarks.jpg';
 
 export const GlobalStyle = createGlobalStyle`
   html {
@@ -40,7 +40,7 @@ export const Wrapper = styled.div`
   //Save as an SVG logo instead?
   h1 {
     font-family: Palanquin Dark;
-    background-image: linear-gradient(180deg, #fff, #87f1ff);
+    background-image: linear-gradient(180deg, #fff, #f7f5cf);
     font-weight: 700;
     background-size: 100%;
     background-clip: text;
@@ -48,7 +48,7 @@ export const Wrapper = styled.div`
     -webkit-text-fill-color: transparent;
     -moz-background-clip: text;
     -moz-text-fill-color: transparent;
-    filter: drop-shadow(2px 2px #0085a3);
+    filter: drop-shadow(2px 2px #93805c);
     font-size: 70px;
     text-align: center;
     margin: 20px;
@@ -56,8 +56,8 @@ export const Wrapper = styled.div`
 
   .start, .next {
     cursor: pointer;
-    background: linear-gradient(180deg, #ffffff, #ffcc91);
-    border: 2px solid #d38558;
+    background: #FCF9D6;
+    border: 3px solid #372916;
     box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.25);
     border-radius: 10px;
     height: 40px;

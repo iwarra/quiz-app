@@ -5,9 +5,9 @@ export const Box = styled.div`
   flex-direction: column;
   gap: 20px;
   align-items: center;
-  background: #ebfeff;
+  background: linear-gradient(180deg, #fff, #B9A986);
   border-radius: 10px;
-  border: 2px solid #0085a3;
+  border: 3px solid #372916;
   padding: 30px;
 
   h2 {
@@ -18,7 +18,7 @@ export const Box = styled.div`
     margin-left: 10px; 
     padding-left: 8px;
     background: #fff;
-    border: 1px solid #7995d2;
+    border: 1px solid #948c58;
     border-radius: 5px;
   }
 `;
