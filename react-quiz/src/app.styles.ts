@@ -56,7 +56,7 @@ export const Wrapper = styled.div`
 
   .start, .next {
     cursor: pointer;
-    background: #FCF9D6;
+    background: #ece8de;
     border: 3px solid #372916;
     box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.25);
     border-radius: 10px;
