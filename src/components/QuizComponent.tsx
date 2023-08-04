@@ -149,7 +149,7 @@ const [errorState, setErrorState] = useState(false)
           <p>Sorry for that. Please try again...</p>
         </div>
       ) : null}
-      { quizState.gameOver || quizState.userAnswers.length === quizState.questions.length && !quizState.loading ? (
+      { quizState.gameOver || (quizState.userAnswers.length === quizState.questions.length && !quizState.loading) ? (
         <button className='start' onClick={ startTrivia }> Start </button>
       ) : null }
       { !quizState.loading && quizState.gameStarted && quizState.userAnswers.length === quizState.questions.length ? (

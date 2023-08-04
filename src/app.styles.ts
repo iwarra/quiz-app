@@ -49,9 +49,16 @@ export const Wrapper = styled.div`
     -moz-background-clip: text;
     -moz-text-fill-color: transparent;
     filter: drop-shadow(2px 2px #93805c);
-    font-size: 70px;
+    font-size: 4.4rem;
     text-align: center;
     margin: 20px;
+  }
+
+  @media (max-width: 378px) {
+    h1 {
+      margin: 20px 0px;
+      font-size: 3rem;
+    };
   }
 
   .start, .next {

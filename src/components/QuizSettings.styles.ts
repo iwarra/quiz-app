@@ -10,6 +10,10 @@ export const Box = styled.div`
   border: 3px solid #372916;
   padding: 30px;
 
+  @media (max-width: 378px) {
+    padding: 20px;
+  }
+
   h2 {
     margin: 10px 0 10px 0;
   }
@@ -20,5 +24,11 @@ export const Box = styled.div`
     background: #fff;
     border: 1px solid #948c58;
     border-radius: 5px;
+  }
+
+  @media (max-width: 282px) {
+    select {
+      margin-left: 0;
+    }
   }
 `;
