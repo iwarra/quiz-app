@@ -1,14 +1,5 @@
-import { AnswerObject } from "./QuizComponent";
 import { Wrapper, ButtonWrapper } from "./QuestionCard.styles";
-
-type QuestionProps = {
-  question: string;
-  answers: string[];
-  callback: (e: React.MouseEvent<HTMLButtonElement>) => void;
-  userAnswer: AnswerObject | undefined;
-  questionNr: number;
-  totalQuestions: number;
-}
+import { QuestionProps } from "../types/types";
 
 const QuestionCard: React.FC<QuestionProps> = ({
   question,

@@ -1,21 +1,5 @@
-import { QuizStateProps } from "../App";
 import { Box } from './QuizSettings.styles'; 
-
-interface QuizSettingsProps {
-  quizState: QuizStateProps;
-  selectedState: {
-    nrOfQuestions: string;
-    questionType: string;
-    difficulty: string;
-    category: string;
-  };
-  setSelectedState: React.Dispatch<React.SetStateAction<{
-    nrOfQuestions: string;
-    questionType: string;
-    difficulty: string;
-    category: string;
-  }>>;
-}
+import { QuizSettingsProps } from "../types/types";
 
 const QuizSettings: React.FC<QuizSettingsProps> = ({ quizState, selectedState, setSelectedState }) => {
   const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {

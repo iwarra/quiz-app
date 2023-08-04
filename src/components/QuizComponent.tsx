@@ -1,32 +1,8 @@
 import { fetchQuizQuestions } from '../API'
-import { QuizStateProps } from "../App";
+import { QuizComponentProps } from "../types/types";
 import QuestionCard from "./QuestionCard";
 import ClipLoader from "react-spinners/ClipLoader";
 import { useState } from 'react';
-
-interface QuizComponentProps {
-  quizState: QuizStateProps;
-  setQuizState: React.Dispatch<React.SetStateAction<QuizStateProps>>;
-  selectedState: {
-    nrOfQuestions: string;
-    questionType: string;
-    difficulty: string;
-    category: string;
-  };
-  setSelectedState: React.Dispatch<React.SetStateAction<{
-    nrOfQuestions: string;
-    questionType: string;
-    difficulty: string;
-    category: string;
-  }>>;
-}
-
-export type AnswerObject = {
-   question: string;
-   answer: string;
-   correct: boolean;
-   correctAnswer: string;
- }
 
 const QuizComponent: React.FC<QuizComponentProps> = ({ quizState, setQuizState, selectedState, setSelectedState }) => {
 const [errorState, setErrorState] = useState(false)
