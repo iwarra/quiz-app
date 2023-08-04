@@ -16,9 +16,15 @@ export const Box = styled.div`
 
   h2 {
     margin: 10px 0 10px 0;
+    font-size: 1.8rem;
+  }
+
+  label {
+    font-size: 1.1rem;
   }
 
   select {
+    font-size: 1rem;
     margin-left: 10px; 
     padding-left: 8px;
     background: #fff;
