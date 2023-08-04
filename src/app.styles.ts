@@ -34,10 +34,10 @@ export const Wrapper = styled.div`
   .score {
     color: #fff;
     font-size: 2rem;
+    text-shadow: 1px 2px 0px black;
     margin: 0;
   }
 
-  //Save as an SVG logo instead?
   h1 {
     font-family: Palanquin Dark;
     background-image: linear-gradient(180deg, #fff, #f7f5cf);
