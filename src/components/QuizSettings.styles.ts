@@ -3,8 +3,8 @@ import styled from "styled-components";
 export const Box = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  align-items: center;
+  gap: 10px;
+  align-items: start;
   background: linear-gradient(180deg, #fff, #B9A986);
   border-radius: 10px;
   border: 3px solid #372916;
@@ -15,7 +15,7 @@ export const Box = styled.div`
   }
 
   h2 {
-    margin: 10px 0 10px 0;
+    margin: 5px 0 10px 0;
     font-size: 1.8rem;
   }
 
@@ -25,14 +25,13 @@ export const Box = styled.div`
 
   select {
     font-size: 1rem;
-    margin-left: 10px; 
     padding-left: 8px;
     background: #fff;
     border: 1px solid #948c58;
     border-radius: 5px;
   }
 
-  @media (max-width: 282px) {
+  @media (max-width: 300px) {
     select {
       margin-left: 0;
     }

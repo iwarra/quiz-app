@@ -3,13 +3,12 @@ import backgroundImage from './images/lightning-questionmarks.jpg';
 
 export const GlobalStyle = createGlobalStyle`
   html {
-    height: 100%;
+    height: 100vh;
   }
 
   body {
     background-image: url(${backgroundImage});
     background-size: cover;
-    background-repeat: no-repeat;
     margin: 0;
     padding: 0 20px;
     display: flex;
@@ -54,23 +53,22 @@ export const Wrapper = styled.div`
     margin: 20px;
   }
 
-  @media (max-width: 378px) {
+  @media (max-width: 420px) {
     h1 {
       margin: 20px 0px;
-      font-size: 3rem;
+      font-size: 3.3rem;
     };
   }
 
   .start, .next {
     cursor: pointer;
     background: #fff;
-    max-height: 30px;
     border: 1px solid #372916;
     box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.25);
     border-radius: 5px;
     height: 40px;
-    margin: 20px 0;
-    padding: 0 40px;
+    margin: 30px 0;
+    padding: 0px 40px;
     font-size: 1rem;
   }
 
