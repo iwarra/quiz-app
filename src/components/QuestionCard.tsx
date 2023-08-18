@@ -1,6 +1,12 @@
 import { Wrapper, ButtonWrapper } from "./QuestionCard.styles";
 import { QuestionProps } from "../types/types";
 
+function decodeHtml(htmlValue: string): string {
+  let txt = document.createElement("textarea");
+  txt.innerHTML = htmlValue;
+  return txt.value;
+}
+
 const QuestionCard: React.FC<QuestionProps> = ({
   question,
   answers,
@@ -9,12 +15,14 @@ const QuestionCard: React.FC<QuestionProps> = ({
   questionNr,
   totalQuestions,
 }) => {
+  const decodedQuestion = decodeHtml(question);
+
   return (
   <Wrapper>
     <p className="number">
       Question: {questionNr} / {totalQuestions}
     </p>
-    <p dangerouslySetInnerHTML={{ __html: question}}></p>
+    <p>{decodedQuestion}</p>
     <div> 
       {answers.map(answer => (
         <ButtonWrapper 
@@ -23,7 +31,7 @@ const QuestionCard: React.FC<QuestionProps> = ({
           userClicked={userAnswer?.answer === answer}
         >
           <button disabled={userAnswer ? true : false} value={answer} onClick={callback}>
-            <span dangerouslySetInnerHTML={{__html: answer}}></span>
+            <span>{decodeHtml(answer)}</span>
           </button>
         </ButtonWrapper>
       ))
