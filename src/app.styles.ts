@@ -1,5 +1,5 @@
 import styled, { createGlobalStyle } from 'styled-components';
-import backgroundImage from './images/lightning-questionmarks.jpg';
+import backgroundImage from './images/lightning-question-marks.jpg';
 
 export const GlobalStyle = createGlobalStyle`
   html {
@@ -33,6 +33,7 @@ export const Wrapper = styled.div`
   .score {
     color: #fff;
     font-size: 2rem;
+    font-weight: 600;
     text-shadow: 1px 2px 0px black;
     margin: 0;
   }
