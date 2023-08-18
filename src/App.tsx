@@ -27,6 +27,11 @@ const App: React.FC = () => {
     <>
     <GlobalStyle />
     <Wrapper>
+      { quizState.gameStarted ? (
+        <button className='backBtn'>
+          <a href="/">Back to home page</a>
+        </button>
+      ) : null }
       <h1>React Quiz</h1>
       <QuizSettings 
         quizState={quizState} 
