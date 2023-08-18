@@ -126,10 +126,10 @@ const [errorState, setErrorState] = useState(false)
         </div>
       ) : null}
       { quizState.gameOver || (quizState.userAnswers.length === quizState.questions.length && !quizState.loading) ? (
-        <button className='start' onClick={ startTrivia }> Start </button>
+        <button className='startBtn' onClick={ startTrivia }> Start </button>
       ) : null }
       { !quizState.loading && quizState.gameStarted && quizState.userAnswers.length === quizState.questions.length ? (
-        <button className='start' onClick={ backToSettings }> Change settings </button>
+        <button className='startBtn' onClick={ backToSettings }> Change settings </button>
       ) : null }
       { !quizState.gameOver && !quizState.loading && !errorState ? <p className='score'>Score: {quizState.score}</p> : null}
       { quizState.loading ? <p>Loading questions...</p> : null}
@@ -144,7 +144,7 @@ const [errorState, setErrorState] = useState(false)
         />
       ) : null }
       { !quizState.gameOver && !quizState.loading && quizState.userAnswers.length === quizState.number + 1 && quizState.number !== quizState.questions.length - 1 ? (
-        <button className='next' onClick={ nextQuestion }>Next question</button>
+        <button className='nextBtn' onClick={ nextQuestion }>Next question</button>
       ) : null }
     </> 
   ) 

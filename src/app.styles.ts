@@ -61,20 +61,33 @@ export const Wrapper = styled.div`
     };
   }
 
-  .start, .next {
+  .startBtn, .nextBtn {
     cursor: pointer;
     background: #fff;
     border: 1px solid #372916;
     box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.25);
     border-radius: 5px;
     height: 40px;
-    margin: 30px 0;
+    margin-top: 30px;
     padding: 0px 40px;
     font-size: 1rem;
   }
 
-  .start {
+  .startBtn {
     max-width: 200px;
+  }
+
+  .backBtn {
+    cursor: pointer;
+    background: #372916;
+    border: 1px solid #fff;
+    border-radius: 5px;
+    margin-top: 30px;
+
+    a {
+      color: #fff;
+      text-decoration: none;
+    }
   }
 
   .error {
