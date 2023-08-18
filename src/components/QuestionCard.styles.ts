@@ -1,11 +1,11 @@
 import styled from "styled-components";
 
 export const Wrapper = styled.div`
-  max-width: 1100px;
+  max-width: 920px;
   background: #fcf7eb;
   border-radius: 10px;
   border: 2px solid #372916;
-  padding: 20px;
+  padding: 30px;
   box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.25);
   text-align: center;
 

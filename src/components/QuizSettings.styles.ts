@@ -8,10 +8,10 @@ export const Box = styled.div`
   background: linear-gradient(180deg, #fff, #B9A986);
   border-radius: 10px;
   border: 3px solid #372916;
-  padding: 30px;
+  padding: 30px 50px;
 
   @media (max-width: 378px) {
-    padding: 20px;
+    padding: 25px;
   }
 
   h2 {
@@ -31,9 +31,7 @@ export const Box = styled.div`
     border-radius: 5px;
   }
 
-  @media (max-width: 300px) {
-    select {
-      margin-left: 0;
-    }
+  #category{
+    margin-bottom: 5px;
   }
 `;
