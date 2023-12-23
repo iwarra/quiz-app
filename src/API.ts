@@ -1,40 +1,26 @@
 import { shuffleArray } from "./utils";
-import { Question } from "./types/types";
+import { OpenTdbRoot } from "./types/types";
 
-export const fetchQuizQuestions = async (selectedValues: {
-      nrOfQuestions: string,
-      questionType: string,
-      difficulty: string,
-      category: string,
-    }) => {
+type selectedValTypes = {
+  nrOfQuestions: string,
+  questionType: string,
+  difficulty: string,
+  category: string,
+}
+
+export const fetchQuizQuestions = async (selectedValues: selectedValTypes) => {
+      const { difficulty: d, questionType: t, category: c } = selectedValues;
+      const nr = selectedValues.nrOfQuestions || 10
+      
+      const url = 'https://opentdb.com/api.php'
+      const endpoints = `amount=${nr}&difficulty=${d}&type=${t}&category=${c}` 
+
       try {
-        let { nrOfQuestions, difficulty, questionType, category } = selectedValues;
-
-        if (nrOfQuestions.length === 0) {
-          nrOfQuestions = "10";
-        };
-
-        let endpoint = `https://opentdb.com/api.php?amount=${nrOfQuestions}` 
-        
-        if (difficulty.length > 0) {
-          endpoint += `&difficulty=${difficulty}`;
-        }
-        
-        if (questionType.length > 0) {
-          endpoint += `&type=${questionType}`;
-        }
-        
-        if (category.length > 0) {
-          endpoint += `&category=${category}`;
-        }
-
-        const response = await fetch(endpoint);
-        if (!response.ok) {
-          throw new Error('Failed to fetch quiz questions.');
-        }
+        const response = await fetch(`${url}?${endpoints}`);
+        if (!response.ok) throw new Error('Failed to fetch quiz questions.');
           
-        const data = await (await fetch(endpoint)).json();
-        return data.results.map((question: Question) => ({
+        const data: OpenTdbRoot = await response.json();
+        return data.results.map((question) => ({
             ...question,
             answers: shuffleArray([...question.incorrect_answers, question.correct_answer])
         }));

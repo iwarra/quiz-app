@@ -1,11 +1,9 @@
-export type AnswerObject = {
-   question: string;
-   answer: string;
-   correct: boolean;
-   correctAnswer: string;
- };
+export interface OpenTdbRoot {
+  response_code: number
+  results: Question[]
+}
 
- export type Question = {
+export type Question = {
   category: string;
   correct_answer: string;
   difficulty: string;
@@ -13,6 +11,13 @@ export type AnswerObject = {
   question: string;
   type: string;
 };
+
+export type AnswerObject = {
+   question: string;
+   answer: string;
+   correct: boolean;
+   correctAnswer: string;
+ };
 
 export type QuestionState = Question & { answers: string[] };
 
