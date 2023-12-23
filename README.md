@@ -1,12 +1,11 @@
 # General info
 
-This is a quiz app made with React and TypeScript. Styling is done by using styled components. 
+This is a quiz app made with React and TypeScript. Styling is done by using styled-components. 
+Please use this link to see the project: https://fun-trivia-night.netlify.app/ 
 
-To start the project use 'npm start'.
+In the settings, you can choose how many questions you want to have, which level of difficulty, and what category you want the questions to be. Have fun!
 
-In the settings you can choose how many questions you want to have, which level of difficulty and category you want the questions to be. Have fun!
-
-NOTE: Please note that politics category has an incorrect endpoint for testing error handling. This is done on purpose.
+NOTE: Just so you know, the politics category has an incorrect endpoint for testing error handling. This is done on purpose.
 
 
 ## Available Scripts
