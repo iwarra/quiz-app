@@ -1,7 +1,7 @@
 # General info
 
 This is a quiz app made with React and TypeScript. Styling is done by using styled-components. 
-Please use this link to see the project: https://fun-trivia-night.netlify.app/ 
+Please use this link to see the project: https://quiz.ivona.se/
 
 In the settings, you can choose how many questions you want to have, which level of difficulty, and what category you want the questions to be. Have fun!
 
